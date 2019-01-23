@@ -1,0 +1,21 @@
+{
+  "name": "codeacademy2019",
+  "version": "1.0.0",
+  "main": "evalauationOne.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "hapi": "^18.0.0",
+    "jest": "^23.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.15.0",
+    "lab": "^18.0.1"
+  }
+}
