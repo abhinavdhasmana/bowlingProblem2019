@@ -14,45 +14,62 @@ describe('validateAllThrows', () => {
 
 describe('convertInputIntoFrames', () => {
   it('should convert no strike, no spare input into 10 frames', () => {
-    const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2];
+    const input = [1, 2, 3, 4, 5, 4, 7, 1, 9, 0, 7, 2, 5, 4, 3, 2, 1, 0, 1, 2];
     const allFrames = convertInputIntoFrames(input);
     expect(allFrames.length).toEqual(10);
   });
 
   it('should convert no strike, no spare input into frames in the same order', () => {
-    const input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2];
+    const input = [1, 2, 3, 4, 5, 4, 7, 1, 9, 0, 7, 2, 5, 4, 3, 2, 1, 0, 1, 2];
     const expectedOutput = [
-      [1, 2], [3, 4], [5, 6], [7, 8], [9, 8], [7, 6], [5, 4], [3, 2], [1, 0], [1, 2],
+      [1, 2], [3, 4], [5, 4], [7, 1], [9, 0], [7, 2], [5, 4], [3, 2], [1, 0], [1, 2],
     ];
     const allFrames = convertInputIntoFrames(input);
-    expect(allFrames).toEqual(expectedOutput);
+    const allFrameValues = allFrames.reduce((acc, frame) => {
+      acc.push(frame.values());
+      return acc;
+    }, []);
+    expect(allFrameValues).toEqual(expectedOutput);
   });
 
   it('should convert one spare input (not 10th frame) into frames in the same order', () => {
-    const input = [1, 9, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2];
+    const input = [1, 9, 3, 4, 5, 1, 7, 1, 9, 0, 7, 1, 5, 4, 3, 2, 1, 0, 1, 2];
     const expectedOutput = [
-      [1, 9], [3, 4], [5, 6], [7, 8], [9, 8], [7, 6], [5, 4], [3, 2], [1, 0], [1, 2],
+      [1, 9], [3, 4], [5, 1], [7, 1], [9, 0], [7, 1], [5, 4], [3, 2], [1, 0], [1, 2],
     ];
     const allFrames = convertInputIntoFrames(input);
-    expect(allFrames).toEqual(expectedOutput);
+    const allFrameValues = allFrames.reduce((acc, frame) => {
+      acc.push(frame.values());
+      return acc;
+    }, []);
+    expect(allFrameValues).toEqual(expectedOutput);
   });
 
   it('should convert multiple spare (not 10th frame)input into frames in the same order', () => {
-    const input = [1, 9, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 7, 1, 0, 1, 2];
+    const input = [1, 9, 3, 4, 5, 1, 7, 1, 9, 0, 7, 1, 5, 1, 3, 7, 1, 0, 1, 2];
     const expectedOutput = [
-      [1, 9], [3, 4], [5, 6], [7, 8], [9, 8], [7, 6], [5, 4], [3, 7], [1, 0], [1, 2],
+      [1, 9], [3, 4], [5, 1], [7, 1], [9, 0], [7, 1], [5, 1], [3, 7], [1, 0], [1, 2],
     ];
     const allFrames = convertInputIntoFrames(input);
-    expect(allFrames).toEqual(expectedOutput);
+    const allFrameValues = allFrames.reduce((acc, frame) => {
+      acc.push(frame.values());
+      return acc;
+    }, []);
+
+    expect(allFrameValues).toEqual(expectedOutput);
   });
 
   it('should convert multiple spare including 10th frame spare input into frames in the same order', () => {
-    const input = [1, 9, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 7, 1, 0, 5, 5, 3];
+    const input = [1, 9, 3, 4, 5, 1, 7, 1, 9, 0, 7, 1, 5, 4, 3, 7, 1, 0, 5, 5, 3];
     const expectedOutput = [
-      [1, 9], [3, 4], [5, 6], [7, 8], [9, 8], [7, 6], [5, 4], [3, 7], [1, 0], [5, 5, 3],
+      [1, 9], [3, 4], [5, 1], [7, 1], [9, 0], [7, 1], [5, 4], [3, 7], [1, 0], [5, 5, 3],
     ];
     const allFrames = convertInputIntoFrames(input);
-    expect(allFrames).toEqual(expectedOutput);
+    const allFrameValues = allFrames.reduce((acc, frame) => {
+      acc.push(frame.values());
+      return acc;
+    }, []);
+    expect(allFrameValues).toEqual(expectedOutput);
   });
 
   it('should convert single strike input into frames of length 10', () => {
@@ -65,7 +82,7 @@ describe('convertInputIntoFrames', () => {
   });
 
   it('should convert multiple strike input into frames of length 10', () => {
-    const input = [10, 7, 1, 10, 5, 6, 1, 1, 10, 8, 1, 6, 2, 4, 3, 7, 1];
+    const input = [10, 7, 1, 10, 5, 4, 1, 1, 10, 8, 1, 6, 2, 4, 3, 7, 1];
     // const expectedOutput = [
     //   [1, 9], [3, 4], [5, 6], [7, 8], [9, 8], [7, 6], [5, 4], [3, 7], [1, 0], [5, 5, 3],
     // ];
